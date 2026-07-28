@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="./styles.css">
+  <script src="_ds/classical-9f4bf067-b518-4e6e-a838-67d2e04617ea/_ds_bundle.js"></script>
+  <script src="./image-slot.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri+Quran&display=swap">
+  <style>
+    .diamond-row{display:flex;align-items:center;justify-content:center;gap:10px}
+    .diamond{width:7px;height:7px;border:1px solid var(--color-accent);transform:rotate(45deg);flex:none}
+    .diamond-line{height:1px;width:64px;background:var(--color-divider)}
+    .seg-count .seg-opt{min-width:44px;justify-content:center}
+    .bismillah{font-family:"Amiri Quran", serif;direction:rtl}
+    @media (max-width:720px){
+      .rsvp-grid{grid-template-columns:1fr !important}
+      .info-grid{grid-template-columns:1fr !important}
+      h1.hero-name{font-size:44px !important}
+    }
+  </style>
+</helmet>
+
+<div style="max-width:1080px;margin:0 auto;background-color:var(--color-bg);color:var(--color-text)">
+
+  <div class="bismillah" style="text-align:center;padding:var(--space-6) var(--space-6) 0;font-size:26px;color:var(--color-accent-700)">
+    بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
+  </div>
+
+  <!-- NAV -->
+  <div class="nav" style="max-width:1080px;margin:0 auto">
+    <div class="nav-brand">C &amp; O</div>
+    <a href="#lieu">Lieu</a>
+    <a href="#rsvp">RSVP</a>
+  </div>
+
+  <!-- HERO -->
+  <div style="position:relative;padding:var(--space-6) var(--space-6) var(--space-6);text-align:center;display:flex;flex-direction:column;align-items:center;gap:var(--space-4)">
+    <div style="font-family:var(--font-heading);font-size:13px;letter-spacing:0.22em;text-transform:uppercase;color:var(--color-accent-700)">Nous nous marions</div>
+    <h1 class="hero-name" style="font-size:64px;font-weight:400;margin:0">Camélia <span style="color:var(--color-accent-700);font-style:italic">&amp;</span> Oussama</h1>
+    <div class="diamond-row"><div class="diamond-line"></div><div class="diamond"></div><div class="diamond-line"></div></div>
+    <div style="font-family:var(--font-heading);font-size:22px">17 Octobre 2026</div>
+    <div style="font-size:14px;color:color-mix(in srgb, var(--color-text) 60%, transparent)">La Majorelle · Témara, Maroc</div>
+
+    <button class="btn btn-secondary" style="margin-top:var(--space-4)" onClick="{{ addToCalendar }}">Ajouter à mon agenda</button>
+  </div>
+
+  <hr class="hr" style="max-width:640px;margin:var(--space-6) auto">
+
+  <!-- LIEU -->
+  <div id="lieu" style="position:relative;padding:var(--space-6);max-width:900px;margin:0 auto">
+    <div style="text-align:center;margin-bottom:var(--space-6)">
+      <div class="card-kicker" style="margin-bottom:4px">Où</div>
+      <h2 style="margin:0">Lieu &amp; infos pratiques</h2>
+      <div class="diamond-row" style="margin-top:var(--space-3)"><div class="diamond-line"></div><div class="diamond"></div><div class="diamond-line"></div></div>
+    </div>
+
+    <div class="info-grid" style="display:grid;grid-template-columns:1fr;gap:var(--space-6);align-items:start">
+      <div>
+        <a href="https://www.google.com/maps/place/La+majorelle+salle+de+f%C3%AAte/@33.9365877,-6.9036382,17z/data=!4m6!3m5!1s0xda70d4d9b427b0f:0xc8654fab9bdf60b1!8m2!3d33.9362584!4d-6.9015783!16s%2Fg%2F11vlsvtvtv" target="_blank" rel="noopener" style="display:block;text-decoration:none">
+          <iframe src="https://maps.google.com/maps?q=33.9362584,-6.9015783&z=16&output=embed" style="width:100%;height:320px;border:0;border-radius:var(--radius-md);pointer-events:none" loading="lazy"></iframe>
+        </a>
+      </div>
+      <div class="card">
+        <div class="card-kicker">Adresse</div>
+        <div class="card-title">La Majorelle</div>
+        <p class="card-body">54, Témara 12000, Maroc</p>
+        <a class="btn btn-ghost" style="align-self:flex-start;padding-left:0" href="https://www.google.com/maps/place/La+majorelle+salle+de+f%C3%AAte/@33.9365877,-6.9036382,17z/data=!4m6!3m5!1s0xda70d4d9b427b0f:0xc8654fab9bdf60b1!8m2!3d33.9362584!4d-6.9015783!16s%2Fg%2F11vlsvtvtv" target="_blank" rel="noopener">Voir sur Google Maps →</a>
+      </div>
+    </div>
+  </div>
+
+  <hr class="hr" style="max-width:640px;margin:var(--space-6) auto">
+
+  <!-- RSVP -->
+  <div id="rsvp" style="position:relative;padding:var(--space-6) var(--space-6) var(--space-8);max-width:640px;margin:0 auto">
+    <div style="text-align:center;margin-bottom:var(--space-6)">
+      <div class="card-kicker" style="margin-bottom:4px">Merci de répondre</div>
+      <h2 style="margin:0">RSVP</h2>
+      <div class="diamond-row" style="margin-top:var(--space-3)"><div class="diamond-line"></div><div class="diamond"></div><div class="diamond-line"></div></div>
+      <p class="text-muted" style="margin-top:var(--space-3)">Nous serions de vous compter parmi nous. Merci de confirmer votre présence dès que possible.</p>
+    </div>
+
+    <sc-if value="{{ submitted }}" hint-placeholder-val="{{ false }}">
+      <div class="card elev-sm" style="text-align:center;padding:var(--space-6)">
+        <div class="card-title" style="font-size:22px">Merci{{ thankName }} !</div>
+        <p class="card-body" style="margin-top:var(--space-2)">Votre réponse a bien été enregistrée.</p>
+        <button class="btn btn-secondary" style="margin-top:var(--space-3)" onClick="{{ resetForm }}">Modifier ma réponse</button>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ notSubmitted }}" hint-placeholder-val="{{ true }}">
+    <form style="display:flex;flex-direction:column;gap:var(--space-4)" onSubmit="{{ handleSubmit }}">
+      <div class="field">
+        <label>Nom complet</label>
+        <input class="input" type="text" placeholder="Votre nom et prénom" value="{{ name }}" onChange="{{ setName }}" required="">
+      </div>
+
+      <div class="field">
+        <label>Serez-vous présent(e) ?</label>
+        <div class="seg" style="width:100%">
+          <div class="seg-opt" style="{{ presenceYesStyle }}" onClick="{{ setPresenceYes }}" role="button">
+            Présent(e)
+          </div>
+          <div class="seg-opt" style="{{ presenceNoStyle }}" onClick="{{ setPresenceNo }}" role="button">
+            Absent(e)
+          </div>
+        </div>
+      </div>
+
+      <sc-if value="{{ presenceYes }}" hint-placeholder-val="{{ true }}">
+        <div class="field">
+          <label>Nombre d'accompagnants (+1)</label>
+          <div class="seg seg-count">
+            <sc-for list="{{ countOptions }}" as="opt" hint-placeholder-count="4">
+              <div class="seg-opt" style="{{ opt.style }}" onClick="{{ opt.onSelect }}" role="button">
+                {{ opt.label }}
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <sc-if value="{{ hasGuests }}" hint-placeholder-val="{{ false }}">
+          <div class="field">
+            <label>Nom(s) des accompagnants</label>
+            <textarea class="input" placeholder="Ex : Sarah Amrani, Karim Bennis" value="{{ guestNames }}" onChange="{{ setGuestNames }}"></textarea>
+          </div>
+        </sc-if>
+      </sc-if>
+
+      <button class="btn btn-primary btn-block" type="submit">Envoyer ma réponse</button>
+    </form>
+    </sc-if>
+  </div>
+
+  <div style="text-align:center;padding:var(--space-6);border-top:1px solid var(--color-divider)">
+    <div class="diamond-row" style="margin-bottom:var(--space-3)"><div class="diamond-line"></div><div class="diamond"></div><div class="diamond-line"></div></div>
+    <div style="font-family:var(--font-heading);font-size:16px">Camélia &amp; Oussama</div>
+    <div style="font-size:12px;color:color-mix(in srgb, var(--color-text) 50%, transparent);margin-top:4px">17 Octobre 2026 · La Majorelle, Témara</div>
+  </div>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const FORM_ID = "1FAIpQLSeL7Dd2UQpqw9TQVba5NOWEQ-jbsVftcjzWj2x-eqzXhTw4dw";
+const FORM_ACTION = `https://docs.google.com/forms/d/e/${FORM_ID}/formResponse`;
+const ENTRY_NOM = "entry.300826237";
+const ENTRY_PRENOM = "entry.1547331352";
+const ENTRY_PRESENCE = "entry.1851869294";
+const ENTRY_GUESTCOUNT = "entry.1823548218";
+const ENTRY_GUESTNAMES = "entry.1683003049";
+
+class Component extends DCLogic {
+  state = {
+    name: "",
+    presence: "yes",
+    guestCount: 0,
+    guestNames: "",
+    submitted: false,
+  };
+
+  setName = (e) => this.setState({ name: e.target.value });
+  setGuestNames = (e) => this.setState({ guestNames: e.target.value });
+  setPresenceYes = () => this.setState({ presence: "yes" });
+  setPresenceNo = () => this.setState({ presence: "no", guestCount: 0, guestNames: "" });
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    const { name, presence, guestCount, guestNames } = this.state;
+    const parts = name.trim().split(/\s+/);
+    const first = parts[0] || "";
+    const rest = parts.slice(1).join(" ");
+
+    const params = new URLSearchParams();
+    params.append(ENTRY_NOM, first);
+    params.append(ENTRY_PRENOM, rest);
+    params.append(ENTRY_PRESENCE, presence === "yes" ? "Oui" : "Non");
+    params.append(ENTRY_GUESTCOUNT, String(guestCount));
+    params.append(ENTRY_GUESTNAMES, guestCount > 0 ? guestNames : "");
+
+    fetch(FORM_ACTION, { method: "POST", mode: "no-cors", body: params }).catch(() => {});
+    this.setState({ submitted: true });
+  };
+
+  resetForm = () => this.setState({ submitted: false });
+
+  addToCalendar = () => {
+    const ics = [
+      "BEGIN:VCALENDAR",
+      "VERSION:2.0",
+      "BEGIN:VEVENT",
+      "SUMMARY:Mariage de Camélia & Oussama",
+      "LOCATION:La Majorelle, Témara, Maroc",
+      "DTSTART:20261017T140000",
+      "DTEND:20261018T010000",
+      "DESCRIPTION:Cérémonie et réception du mariage de Camélia et Oussama.",
+      "END:VEVENT",
+      "END:VCALENDAR",
+    ].join("\r\n");
+    const blob = new Blob([ics], { type: "text/calendar" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "Mariage-Camelia-Oussama.ics";
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  renderVals() {
+    const { name, presence, guestCount, guestNames, submitted } = this.state;
+    const presenceYes = presence === "yes";
+    const selStyle = "flex:1;justify-content:center;cursor:pointer;color:var(--color-accent-700);box-shadow:inset 0 0 0 1px var(--color-accent)";
+    const unselStyle = "flex:1;justify-content:center;cursor:pointer";
+    const countOptions = [0, 1, 2, 3].map((n) => ({
+      label: n === 0 ? "0" : `+${n}`,
+      style: guestCount === n
+        ? "cursor:pointer;color:var(--color-accent-700);box-shadow:inset 0 0 0 1px var(--color-accent)"
+        : "cursor:pointer",
+      onSelect: () => this.setState({ guestCount: n }),
+    }));
+    return {
+      addToCalendar: this.addToCalendar,
+      name,
+      setName: this.setName,
+      presenceYes,
+      presenceYesStyle: presenceYes ? selStyle : unselStyle,
+      presenceNoStyle: !presenceYes ? selStyle : unselStyle,
+      presenceNo: presence === "no",
+      setPresenceYes: this.setPresenceYes,
+      setPresenceNo: this.setPresenceNo,
+      countOptions,
+      hasGuests: guestCount > 0,
+      guestNames,
+      setGuestNames: this.setGuestNames,
+      handleSubmit: this.handleSubmit,
+      submitted,
+      notSubmitted: !submitted,
+      thankName: name ? `, ${name}` : "",
+      resetForm: this.resetForm,
+    };
+  }
+}
+
+</script>
+</body>
+</html>
