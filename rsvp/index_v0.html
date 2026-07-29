@@ -9,85 +9,162 @@
 <style>
   #intro-overlay {
     position: fixed; inset: 0; z-index: 9999;
-    cursor: pointer;
-    display: flex; align-items: flex-end; justify-content: center;
+    display: flex; align-items: center; justify-content: center;
     overflow: hidden;
-    transition: opacity 1.2s ease;
+    transition: opacity 0.5s 0.15s;
   }
   #intro-overlay.done { opacity: 0; pointer-events: none; }
 
-  #intro-bg {
-    position: absolute; inset: 0;
-    background: url('./intro.png') center center / contain no-repeat;
-    background-color: #1a1008;
+  #curtain-l, #curtain-r {
+    position: absolute; top: 0; width: 51%; height: 100%;
+    background: linear-gradient(160deg, #f9f4ec 0%, #ede2cc 45%, #d8c8a8 100%);
+    transition: transform 1.3s cubic-bezier(0.77, 0, 0.175, 1);
+    will-change: transform;
   }
+  #curtain-l {
+    left: 0;
+    box-shadow: inset -10px 0 30px rgba(140,110,60,.12), 3px 0 16px rgba(0,0,0,.13);
+  }
+  #curtain-r {
+    right: 0;
+    box-shadow: inset 10px 0 30px rgba(140,110,60,.12), -3px 0 16px rgba(0,0,0,.13);
+  }
+  /* Corner ornaments on curtains */
+  #curtain-l::before, #curtain-l::after,
+  #curtain-r::before, #curtain-r::after {
+    content: '';
+    position: absolute;
+    width: 90px; height: 90px;
+    background: radial-gradient(circle at center, rgba(184,150,90,.22) 0%, transparent 70%);
+    border: 1px solid rgba(184,150,90,.3);
+    border-radius: 50%;
+  }
+  #curtain-l::before { top: 24px; left: 24px; }
+  #curtain-l::after  { bottom: 24px; left: 24px; }
+  #curtain-r::before { top: 24px; right: 24px; }
+  #curtain-r::after  { bottom: 24px; right: 24px; }
 
-  .i-hint {
+  #intro-overlay.open #curtain-l { transform: translateX(-105%); }
+  #intro-overlay.open #curtain-r { transform: translateX(105%); }
+
+  #intro-box {
     position: relative; z-index: 2;
-    margin-bottom: 36px;
-    font-size: 10px; letter-spacing: .25em;
-    text-transform: uppercase;
-    color: rgba(80, 48, 10, 0.6);
-    opacity: 0;
-    animation: iIn 1.2s 2s ease both;
-    text-shadow: 0 1px 4px rgba(255,255,255,.6);
+    text-align: center; padding: 36px 44px;
+    max-width: 460px; width: 90%;
+    animation: fadeUp 0.9s ease both;
   }
-  @keyframes iIn {
-    from { opacity: 0; transform: translateY(6px); }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
     to   { opacity: 1; transform: translateY(0); }
   }
-
-  /* Pétales */
-  .i-petal {
-    position: fixed; z-index: 9998;
-    pointer-events: none; opacity: 0;
-    border-radius: 60% 40% 60% 40%;
-    animation: petalFall var(--dur) var(--delay) ease-in forwards;
+  .i-bismillah {
+    font-family: 'Amiri Quran', serif;
+    direction: rtl; font-size: 21px;
+    color: #b8965a; margin-bottom: 22px;
   }
-  @keyframes petalFall {
-    0%   { opacity: .9; transform: translateY(-60px) translateX(0) rotate(0deg); }
-    40%  { opacity: .85; transform: translateY(35vh) translateX(var(--sway)) rotate(var(--rot)); }
-    100% { opacity: 0; transform: translateY(110vh) translateX(0) rotate(calc(var(--rot) * 1.6)); }
+  .i-sub {
+    font-size: 10px; letter-spacing: .22em;
+    text-transform: uppercase; color: #9a8060;
+    margin-bottom: 10px;
+  }
+  .i-names {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 46px; font-weight: 300; line-height: 1.1;
+    color: #1e1810; margin-bottom: 8px;
+  }
+  .i-names em { color: #b8965a; font-style: italic; }
+  .i-date {
+    font-size: 12px; letter-spacing: .1em;
+    color: #9a8060; margin-bottom: 30px;
+  }
+  .i-divider {
+    display: flex; align-items: center; justify-content: center;
+    gap: 8px; margin-bottom: 24px;
+  }
+  .i-diamond {
+    width: 6px; height: 6px;
+    border: 1px solid #b8965a;
+    transform: rotate(45deg);
+  }
+  .i-line { height: 1px; width: 56px; background: #c8b080; }
+
+  #intro-btn {
+    background: #b8965a; color: #fff;
+    border: none; border-radius: 40px;
+    padding: 14px 38px; font-size: 13px;
+    letter-spacing: .12em; text-transform: uppercase;
+    cursor: pointer; font-family: inherit;
+    transition: background .2s, transform .15s;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  #intro-btn:hover { background: #a07c42; transform: scale(1.04); }
+
+  /* Falling leaves */
+  .i-leaf {
+    position: absolute; z-index: 3;
+    pointer-events: none; opacity: 0;
+    animation: leafFall var(--dur) var(--delay) ease-in forwards;
+  }
+  @keyframes leafFall {
+    0%   { transform: translateY(-80px) rotate(0deg) translateX(0); opacity: .9; }
+    50%  { transform: translateY(45vh) rotate(var(--rot)) translateX(var(--sway)); opacity: .85; }
+    100% { transform: translateY(105vh) rotate(calc(var(--rot) * 2)) translateX(0); opacity: 0; }
   }
 </style>
 </head>
 <body>
 
-<div id="intro-overlay" onclick="openInvitation()">
-  <div id="intro-bg"></div>
-  <div class="i-hint">Appuyez pour ouvrir</div>
-  <div id="intro-petals"></div>
+<div id="intro-overlay">
+  <div id="curtain-l"></div>
+  <div id="curtain-r"></div>
+  <div id="intro-leaves"></div>
+  <div id="intro-box">
+    <div class="i-bismillah">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
+    <div class="i-sub">Vous êtes invité(e) au mariage de</div>
+    <div class="i-names">Camélia <em>&amp;</em> Oussama</div>
+    <div class="i-date">17 Octobre 2026 · La Majorelle, Témara</div>
+    <div class="i-divider"><div class="i-line"></div><div class="i-diamond"></div><div class="i-line"></div></div>
+    <button id="intro-btn" onclick="openInvitation()">
+      <svg width="16" height="14" viewBox="0 0 16 14" fill="none"><rect x="0.5" y="0.5" width="15" height="13" rx="1.5" stroke="currentColor"/><path d="M0.5 2.5L8 8.5L15.5 2.5" stroke="currentColor"/></svg>
+      Ouvrir l'invitation
+    </button>
+  </div>
 </div>
 
 <script>
-var _opened = false;
 function openInvitation() {
-  if (_opened) return;
-  _opened = true;
-  spawnPetals();
-  var o = document.getElementById('intro-overlay');
-  setTimeout(function() { o.classList.add('done'); }, 300);
-  setTimeout(function() { o.remove(); }, 1600);
+  var overlay = document.getElementById('intro-overlay');
+  overlay.classList.add('open');
+  spawnLeaves();
+  setTimeout(function() { overlay.classList.add('done'); }, 1400);
+  setTimeout(function() { overlay.remove(); }, 1950);
 }
 
-function spawnPetals() {
-  var c = document.getElementById('intro-petals');
-  var colors = ['#f5c0c8','#f0d0a0','#f8e0b8','#e8b0b8','#faecd8','#ddc7a7','#e8d8c0','#f8c8d8'];
-  for (var i = 0; i < 30; i++) {
+function spawnLeaves() {
+  var container = document.getElementById('intro-leaves');
+  var leafShapes = [
+    '<svg viewBox="0 0 36 52" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M18 50C18 50 2 33 2 18C2 9 9 2 18 2C27 2 34 9 34 18C34 33 18 50 18 50Z"/><line x1="18" y1="48" x2="18" y2="4" stroke="rgba(255,255,255,.3)" stroke-width="1"/></svg>',
+    '<svg viewBox="0 0 44 36" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M2 34C2 34 2 6 24 2C44 -1 46 34 24 34"/></svg>',
+    '<svg viewBox="0 0 30 46" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M15 44C15 44 0 28 2 14C4 3 15 0 15 0C15 0 26 3 28 14C30 28 15 44 15 44Z"/></svg>',
+    '<svg viewBox="0 0 28 28" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><ellipse cx="14" cy="14" rx="10" ry="13" transform="rotate(-25 14 14)"/></svg>'
+  ];
+  var colors = [ '#DDC7A7', '#B49A7A', '#9C6B2F', '#4A2F20', '#1F130D'];
+
+  for (var i = 0; i < 26; i++) {
     var el = document.createElement('div');
-    el.className = 'i-petal';
-    var w = 10 + Math.random() * 22;
+    el.className = 'i-leaf';
+    var size = 14 + Math.random() * 26;
     var x = Math.random() * 100;
-    var dur = (2.2 + Math.random() * 2.6).toFixed(1) + 's';
-    var delay = (Math.random() * 1.2).toFixed(2) + 's';
-    var rot = (Math.random() > .5 ? '' : '-') + (120 + Math.floor(Math.random() * 300)) + 'deg';
-    var sway = (Math.random() > .5 ? '' : '-') + Math.floor(30 + Math.random() * 80) + 'px';
-    el.style.cssText =
-      'left:' + x + '%;top:0;width:' + w + 'px;height:' + (w * 0.65) + 'px;' +
-      'background:' + colors[Math.floor(Math.random() * colors.length)] + ';' +
-      '--dur:' + dur + ';--delay:' + delay + ';--rot:' + rot + ';--sway:' + sway + ';' +
-      'transform:rotate(' + Math.floor(Math.random()*360) + 'deg)';
-    c.appendChild(el);
+    var dur = (2.2 + Math.random() * 2.4).toFixed(1) + 's';
+    var delay = (Math.random() * 1.4).toFixed(2) + 's';
+    var rot = (Math.random() > .5 ? '' : '-') + (200 + Math.floor(Math.random() * 280)) + 'deg';
+    var sway = (Math.random() > .5 ? '' : '-') + Math.floor(20 + Math.random() * 60) + 'px';
+    var color = colors[Math.floor(Math.random() * colors.length)];
+    el.style.cssText = 'left:' + x + '%;top:0;width:' + size + 'px;height:' + (size * 1.4) + 'px;color:' + color + ';--dur:' + dur + ';--delay:' + delay + ';--rot:' + rot + ';--sway:' + sway;
+    el.innerHTML = leafShapes[Math.floor(Math.random() * leafShapes.length)];
+    var svg = el.querySelector('svg');
+    if (svg) { svg.style.width = '100%'; svg.style.height = '100%'; }
+    container.appendChild(el);
   }
 }
 </script>

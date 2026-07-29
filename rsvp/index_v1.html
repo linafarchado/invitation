@@ -7,33 +7,127 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Cormorant+Garamond:ital,wght@0,300;1,300&display=swap">
 <script src="./support.js"></script>
 <style>
+  /* ════════════════════════════════
+     RIDEAUX ÉLÉGANTS
+  ════════════════════════════════ */
   #intro-overlay {
     position: fixed; inset: 0; z-index: 9999;
-    cursor: pointer;
-    display: flex; align-items: flex-end; justify-content: center;
-    overflow: hidden;
-    transition: opacity 1.2s ease;
+    background: #0e0904;
+    overflow: hidden; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: opacity 1s ease;
   }
   #intro-overlay.done { opacity: 0; pointer-events: none; }
 
-  #intro-bg {
-    position: absolute; inset: 0;
-    background: url('./intro.png') center center / contain no-repeat;
-    background-color: #1a1008;
+  /* Cadre doré en U — haut + côtés */
+  #valence-top, #valence-l, #valence-r {
+    position: absolute; z-index: 6; pointer-events: none;
+    background: linear-gradient(135deg, #b88020 0%, #e8c050 35%, #f0cc58 55%, #d4a030 80%, #b88020 100%);
+  }
+  /* Haut */
+  #valence-top {
+    top: 0; left: 0; right: 0; height: 36px;
+    box-shadow: 0 4px 20px rgba(0,0,0,.55);
+  }
+  /* Effet franges sous la barre du haut */
+  #valence-top::after {
+    content: '';
+    position: absolute; bottom: -12px; left: 36px; right: 36px; height: 12px;
+    background: linear-gradient(180deg, rgba(184,128,32,.4) 0%, transparent 100%);
+  }
+  /* Côté gauche */
+  #valence-l {
+    top: 0; left: 0; width: 36px; bottom: 0;
+    box-shadow: 4px 0 20px rgba(0,0,0,.45);
+  }
+  /* Côté droit */
+  #valence-r {
+    top: 0; right: 0; width: 36px; bottom: 0;
+    box-shadow: -4px 0 20px rgba(0,0,0,.45);
   }
 
+  /* Rideaux — tissu soyeux, dégradé doux sans rayures */
+  #curtain-l, #curtain-r {
+    position: absolute; top: 0;
+    width: 51%; height: 100%;
+    transition: transform 2.2s cubic-bezier(0.76, 0, 0.24, 1);
+    will-change: transform;
+  }
+  #curtain-l {
+    left: 0;
+    background: linear-gradient(to right,
+      #d8c8a4 0%,
+      #ede0c4 18%,
+      #f6f0e0 45%,
+      #f0e8d4 70%,
+      #e4d4b4 100%
+    );
+    box-shadow: inset -50px 0 90px rgba(80,50,8,.12), 4px 0 32px rgba(0,0,0,.6);
+  }
+  #curtain-r {
+    right: 0;
+    background: linear-gradient(to left,
+      #d8c8a4 0%,
+      #ede0c4 18%,
+      #f6f0e0 45%,
+      #f0e8d4 70%,
+      #e4d4b4 100%
+    );
+    box-shadow: inset 50px 0 90px rgba(80,50,8,.12), -4px 0 32px rgba(0,0,0,.6);
+  }
+  #intro-overlay.open #curtain-l { transform: translateX(-108%); }
+  #intro-overlay.open #curtain-r { transform: translateX(108%); }
+
+  /* Contenu centré (par-dessus les rideaux) */
+  #intro-box {
+    position: relative; z-index: 4;
+    text-align: center; pointer-events: none;
+    padding: 0 24px; display: flex;
+    flex-direction: column; align-items: center;
+  }
+  .i-bismillah {
+    font-family: 'Amiri Quran', serif;
+    direction: rtl; font-size: 22px;
+    color: #6a3e08;
+    margin-bottom: 20px;
+    opacity: 0; animation: iIn 1.2s 0.4s ease both;
+    text-shadow: 0 1px 0 rgba(255,255,255,.4);
+  }
+  .i-sub {
+    font-size: 9px; letter-spacing: .28em;
+    text-transform: uppercase; color: #705018;
+    margin-bottom: 8px;
+    opacity: 0; animation: iIn 1.2s 0.8s ease both;
+  }
+  .i-names {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(38px, 8vw, 68px);
+    font-weight: 300; line-height: 1.05;
+    color: #1a100a;
+    opacity: 0; animation: iIn 1.4s 1s ease both;
+    text-shadow: 0 1px 2px rgba(255,255,255,.25);
+  }
+  .i-names em { color: #7a5010; font-style: italic; }
+  .i-divider {
+    display: flex; align-items: center; gap: 10px;
+    margin: 14px 0;
+    opacity: 0; animation: iIn 1.2s 1.2s ease both;
+  }
+  .i-diamond { width: 6px; height: 6px; border: 1px solid rgba(120,80,16,.5); transform: rotate(45deg); }
+  .i-line    { height: 1px; width: 54px; background: rgba(120,80,16,.3); }
+  .i-date {
+    font-size: 11px; letter-spacing: .12em;
+    color: #6a4818; margin-bottom: 28px;
+    opacity: 0; animation: iIn 1.2s 1.3s ease both;
+  }
   .i-hint {
-    position: relative; z-index: 2;
-    margin-bottom: 36px;
-    font-size: 10px; letter-spacing: .25em;
+    font-size: 9px; letter-spacing: .22em;
     text-transform: uppercase;
-    color: rgba(80, 48, 10, 0.6);
-    opacity: 0;
-    animation: iIn 1.2s 2s ease both;
-    text-shadow: 0 1px 4px rgba(255,255,255,.6);
+    color: rgba(80,48,10,.5);
+    opacity: 0; animation: iIn 1.4s 2.6s ease both;
   }
   @keyframes iIn {
-    from { opacity: 0; transform: translateY(6px); }
+    from { opacity: 0; transform: translateY(8px); }
     to   { opacity: 1; transform: translateY(0); }
   }
 
@@ -54,8 +148,19 @@
 <body>
 
 <div id="intro-overlay" onclick="openInvitation()">
-  <div id="intro-bg"></div>
-  <div class="i-hint">Appuyez pour ouvrir</div>
+  <div id="valence-top"></div>
+  <div id="valence-l"></div>
+  <div id="valence-r"></div>
+  <div id="curtain-l"></div>
+  <div id="curtain-r"></div>
+  <div id="intro-box">
+    <div class="i-bismillah">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
+    <div class="i-sub">Vous êtes invité(e) au mariage de</div>
+    <div class="i-names">Camélia <em>&amp;</em> Oussama</div>
+    <div class="i-divider"><div class="i-line"></div><div class="i-diamond"></div><div class="i-line"></div></div>
+    <div class="i-date">17 Octobre 2026 · La Majorelle, Témara</div>
+    <div class="i-hint">Appuyez pour ouvrir</div>
+  </div>
   <div id="intro-petals"></div>
 </div>
 
@@ -64,26 +169,31 @@ var _opened = false;
 function openInvitation() {
   if (_opened) return;
   _opened = true;
+  document.getElementById('curtain-l').style.transform = 'translateX(-108%)';
+  document.getElementById('curtain-r').style.transform = 'translateX(108%)';
   spawnPetals();
   var o = document.getElementById('intro-overlay');
-  setTimeout(function() { o.classList.add('done'); }, 300);
-  setTimeout(function() { o.remove(); }, 1600);
+  setTimeout(function() { o.style.opacity = '0'; o.style.pointerEvents = 'none'; }, 1800);
+  setTimeout(function() { o.remove(); }, 2800);
 }
+/* Auto-ouvre après 5s si pas de clic */
+setTimeout(openInvitation, 5000);
 
 function spawnPetals() {
   var c = document.getElementById('intro-petals');
-  var colors = ['#f5c0c8','#f0d0a0','#f8e0b8','#e8b0b8','#faecd8','#ddc7a7','#e8d8c0','#f8c8d8'];
-  for (var i = 0; i < 30; i++) {
+  var colors = ['#f5c0c8','#f0d0a0','#f8e0b8','#e8b0b8','#faecd8','#f2a0b0','#e8d8c0','#f8c8d8'];
+  for (var i = 0; i < 35; i++) {
     var el = document.createElement('div');
     el.className = 'i-petal';
-    var w = 10 + Math.random() * 22;
+    var w = 10 + Math.random() * 20;
+    var h = w * (0.55 + Math.random() * 0.45);
     var x = Math.random() * 100;
-    var dur = (2.2 + Math.random() * 2.6).toFixed(1) + 's';
-    var delay = (Math.random() * 1.2).toFixed(2) + 's';
+    var dur = (2.4 + Math.random() * 2.8).toFixed(1) + 's';
+    var delay = (Math.random() * 2).toFixed(2) + 's';
     var rot = (Math.random() > .5 ? '' : '-') + (120 + Math.floor(Math.random() * 300)) + 'deg';
     var sway = (Math.random() > .5 ? '' : '-') + Math.floor(30 + Math.random() * 80) + 'px';
     el.style.cssText =
-      'left:' + x + '%;top:0;width:' + w + 'px;height:' + (w * 0.65) + 'px;' +
+      'left:' + x + '%;top:0;width:' + w + 'px;height:' + h + 'px;' +
       'background:' + colors[Math.floor(Math.random() * colors.length)] + ';' +
       '--dur:' + dur + ';--delay:' + delay + ';--rot:' + rot + ';--sway:' + sway + ';' +
       'transform:rotate(' + Math.floor(Math.random()*360) + 'deg)';
