@@ -104,10 +104,14 @@ function spawnPetals() {
     .diamond-line{height:1px;width:64px;background:var(--color-divider)}
     .seg-count .seg-opt{min-width:44px;justify-content:center}
     .bismillah{font-family:"Amiri Quran", serif;direction:rtl}
+    h1.hero-name{white-space:nowrap}
     @media (max-width:720px){
       .rsvp-grid{grid-template-columns:1fr !important}
       .info-grid{grid-template-columns:1fr !important}
       h1.hero-name{font-size:44px !important}
+    }
+    @media (max-width:400px){
+      h1.hero-name{font-size:34px !important}
     }
   </style>
 </helmet>
@@ -127,7 +131,7 @@ function spawnPetals() {
 
   <!-- HERO -->
   <div style="position:relative;padding:var(--space-6) var(--space-6) var(--space-6);text-align:center;display:flex;flex-direction:column;align-items:center;gap:var(--space-4)">
-    <div style="font-family:var(--font-heading);font-size:13px;letter-spacing:0.22em;text-transform:uppercase;color:var(--color-accent-700)">Nous nous marions</div>
+    <div style="font-family:var(--font-heading);font-size:18px;line-height:1.5;letter-spacing:0.02em;color:var(--color-accent-700);max-width:520px">Les familles Farchado et Meslahi ont le plaisir de vous inviter au mariage de Camélia et Oussama qui sera célébré le 17 octobre 2026</div>
     <h1 class="hero-name" style="font-size:64px;font-weight:400;margin:0">Camélia <span style="color:var(--color-accent-700);font-style:italic">&amp;</span> Oussama</h1>
     <div class="diamond-row"><div class="diamond-line"></div><div class="diamond"></div><div class="diamond-line"></div></div>
     <div style="font-family:var(--font-heading);font-size:22px">17 Octobre 2026</div>
@@ -169,7 +173,7 @@ function spawnPetals() {
       <div class="card-kicker" style="margin-bottom:4px">Merci de répondre</div>
       <h2 style="margin:0">RSVP</h2>
       <div class="diamond-row" style="margin-top:var(--space-3)"><div class="diamond-line"></div><div class="diamond"></div><div class="diamond-line"></div></div>
-      <p class="text-muted" style="margin-top:var(--space-3)">Nous serions de vous compter parmi nous. Merci de confirmer votre présence dès que possible.</p>
+      <p class="text-muted" style="margin-top:var(--space-3)">Nous serions ravis de vous compter parmi nous pour célébrer notre union le 17 octobre prochain. Merci de confirmer votre présence avant le 01 octobre.</p>
     </div>
 
     <sc-if value="{{ submitted }}" hint-placeholder-val="{{ false }}">
@@ -203,7 +207,7 @@ function spawnPetals() {
         <div class="field">
           <label>Nombre d'accompagnants (+1)</label>
           <div class="seg seg-count">
-            <sc-for list="{{ countOptions }}" as="opt" hint-placeholder-count="4">
+            <sc-for list="{{ countOptions }}" as="opt" hint-placeholder-count="2">
               <div class="seg-opt" style="{{ opt.style }}" onClick="{{ opt.onSelect }}" role="button">
                 {{ opt.label }}
               </div>
@@ -303,7 +307,7 @@ class Component extends DCLogic {
     const presenceYes = presence === "yes";
     const selStyle = "flex:1;justify-content:center;cursor:pointer;color:var(--color-accent-700);box-shadow:inset 0 0 0 1px var(--color-accent)";
     const unselStyle = "flex:1;justify-content:center;cursor:pointer";
-    const countOptions = [0, 1, 2, 3].map((n) => ({
+    const countOptions = [0, 1].map((n) => ({
       label: n === 0 ? "0" : `+${n}`,
       style: guestCount === n
         ? "cursor:pointer;color:var(--color-accent-700);box-shadow:inset 0 0 0 1px var(--color-accent)"
